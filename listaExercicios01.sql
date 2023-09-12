@@ -60,6 +60,11 @@ SELECT matriculas.curso, alunos.nome AS aluno
 FROM matriculas
 RIGHT JOIN alunos ON matriculas.aluno_id = alunos.id;
 
+SELECT alunos.nome AS aluno, matriculas.curso
+FROM alunos
+INNER JOIN matriculas ON alunos.id = matriculas.aluno_id;
+
+
 
 
 
