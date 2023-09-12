@@ -76,3 +76,4 @@ FROM vendas
 GROUP BY produto
 ORDER BY total_da_receita ASC
 LIMIT 1;
+
