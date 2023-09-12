@@ -77,3 +77,9 @@ GROUP BY produto
 ORDER BY total_da_receita ASC
 LIMIT 1;
 
+SELECT autores.nome AS autor, 
+COUNT(livros.id) AS quantidade_de_livros,
+COUNT(livros.id) * 20 AS total_da_receita
+FROM autores
+LEFT JOIN livros ON autores.id = livros.autor_id
+GROUP BY autores.nome;
