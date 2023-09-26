@@ -107,3 +107,18 @@ DELIMITER ;
 -- Para testar a stored procedure:
 CALL sp_AdicionarLivro('O Universo Desconhecido', 1, 2019, 320, 3, @mensagem);
 SELECT @mensagem;
+
+DELIMITER //
+CREATE PROCEDURE sp_AutorMaisAntigo(OUT nomeAutorMaisAntigo VARCHAR(255))
+BEGIN
+    SELECT CONCAT(Nome, ' ', Sobrenome)
+    INTO nomeAutorMaisAntigo
+    FROM Autor
+    ORDER BY Data_Nascimento
+    LIMIT 1;
+END//
+DELIMITER ;
+
+-- Para testar a stored procedure:
+CALL sp_AutorMaisAntigo(@nomeAutorMaisAntigo);
+SELECT @nomeAutorMaisAntigo;
