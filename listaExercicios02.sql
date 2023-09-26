@@ -88,3 +88,22 @@ DELIMITER ;
 
 -- Para testar a stored procedure:
 CALL sp_TitulosPorCategoria('História');
+
+DELIMITER //
+CREATE PROCEDURE sp_AdicionarLivro(IN titulo VARCHAR(255), IN editoraID INT, IN ano INT, IN paginas INT, IN categoriaID INT, OUT mensagem VARCHAR(255))
+BEGIN
+    DECLARE EXIT HANDLER FOR 1062  -- Código de erro para chave duplicada (índice único)
+    BEGIN
+        SET mensagem = 'Erro: Título de livro já existe.';
+    END;
+
+    INSERT INTO Livro (Titulo, Editora_ID, Ano_Publicacao, Numero_Paginas, Categoria_ID)
+    VALUES (titulo, editoraID, ano, paginas, categoriaID);
+    
+    SET mensagem = 'Livro adicionado com sucesso.';
+END//
+DELIMITER ;
+
+-- Para testar a stored procedure:
+CALL sp_AdicionarLivro('O Universo Desconhecido', 1, 2019, 320, 3, @mensagem);
+SELECT @mensagem;
