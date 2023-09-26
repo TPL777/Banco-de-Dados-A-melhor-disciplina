@@ -122,3 +122,33 @@ DELIMITER ;
 -- Para testar a stored procedure:
 CALL sp_AutorMaisAntigo(@nomeAutorMaisAntigo);
 SELECT @nomeAutorMaisAntigo;
+
+DELIMITER //
+CREATE PROCEDURE sp_AdicionarLivro(IN titulo VARCHAR(255), IN editoraID INT, IN ano INT, IN paginas INT, IN categoriaID INT, OUT mensagem VARCHAR(255))
+BEGIN
+    DECLARE EXIT HANDLER FOR 1062  -- Código de erro para chave duplicada (índice único)
+    BEGIN
+        SET mensagem = 'Erro: Título de livro já existe.';
+    END;
+
+    -- Esta stored procedure adiciona um novo livro à tabela Livro com tratamento de erros.
+
+    -- Parâmetros de entrada:
+    -- titulo: O título do livro a ser adicionado.
+    -- editoraID: O ID da editora do livro.
+    -- ano: O ano de publicação do livro.
+    -- paginas: O número de páginas do livro.
+    -- categoriaID: O ID da categoria do livro.
+
+    -- OUT mensagem: Esta variável de saída conterá uma mensagem de status após a execução da stored procedure.
+
+    -- Primeiro, definimos um manipulador de saída para o código de erro 1062, que ocorre quando há uma tentativa de inserir uma chave duplicada (índice único).
+
+    -- Em seguida, inserimos os valores fornecidos nas colunas correspondentes da tabela Livro.
+    INSERT INTO Livro (Titulo, Editora_ID, Ano_Publicacao, Numero_Paginas, Categoria_ID)
+    VALUES (titulo, editoraID, ano, paginas, categoriaID);
+    
+    -- Se a inserção for bem-sucedida, definimos a mensagem de status como 'Livro adicionado com sucesso.'
+    SET mensagem = 'Livro adicionado com sucesso.';
+END//
+DELIMITER ;
