@@ -34,3 +34,16 @@ DELIMITER ;
 -- Para testar a stored procedure:
 CALL sp_ContarLivrosPorCategoria('Ciência', @total);
 SELECT @total;
+
+DELIMITER //
+CREATE PROCEDURE sp_VerificarLivrosCategoria(IN categoriaNome VARCHAR(100), OUT possuiLivros BOOLEAN)
+BEGIN
+    DECLARE total INT;
+    CALL sp_ContarLivrosPorCategoria(categoriaNome, total);
+    SET possuiLivros = (total > 0);
+END//
+DELIMITER ;
+
+-- Para testar a stored procedure:
+CALL sp_VerificarLivrosCategoria('Ficção Científica', @possuiLivros);
+SELECT @possuiLivros;
